@@ -1,0 +1,5 @@
+salt-formula-watchdog (2018.1) trusty; urgency=medium
+
+  * Initial release
+
+ -- Petr Ruzicka pruzicka@mirantis.com  Mon, 22 Jan 2018 12:43:27 GMT

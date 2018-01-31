@@ -1,0 +1,89 @@
+%YAML 1.1
+---
+"$schema": "http://json-schema.org/draft-06/schema#"
+title: watchdog daemon role
+description: |
+  Watchdog daemon, server role
+type: object
+additionalProperties: false
+
+required:
+  - enabled
+
+properties:
+  enabled:
+    description: |
+      Enables Watchdog daemon service
+    type: boolean
+  timeout:
+    description: |
+      Seting "watchdog-timer" config parameter placed in /etc/watchdog.conf
+    type: integer
+    minimum: 0
+  kernel:
+    description: |
+      Parameters for the kernel module which are used for loading the kernel module
+    type: string
+    type: object
+    parameters:
+      parameter:
+        description: |
+          Name of the watchdog kernel module
+        type: string
+        items:
+          $ref: "#/definitions/allow_kdump"
+
+definitions:
+  # hpwdt
+  allow_kdump:
+    description: |
+      Start a kernel dump after NMI occurs (int)
+    type: integer
+    minimum: 0
+
+  # iTCO_wdt
+  heartbeat:
+    description: |
+      Watchdog timeout in seconds. 5..76 (TCO v1) or 3..614 (TCO v2), default=30) (int)
+    type: integer
+    minimum: 3
+    maximum: 614
+
+  # iTCO_wdt, hpwdt, softdog
+  nowayout:
+    description: |
+      Watchdog cannot be stopped once started (default=0) (bool)
+    type: integer
+    minimum: 0
+    maximum: 1
+
+  # hpwdt, softdog
+  soft_margin:
+    description: |
+      Watchdog soft_margin in seconds. (0 < soft_margin < 65536, default=60) (uint)
+    type: integer
+    minimum: 0
+
+  # softdog
+  soft_noboot:
+    description: |
+      Softdog action, set to 1 to ignore reboots, 0 to reboot (default=0) (int)
+    type: integer
+    minimum: 0
+    maximum: 1
+
+  # softdog
+  soft_panic:
+    description: |
+      Softdog action, set to 1 to panic, 0 to reboot (default=0) (int)
+    type: integer
+    minimum: 0
+    maximum: 1
+
+  # iTCO_wdt
+  turn_SMI_watchdog_clear_off:
+    description: |
+      Turn off SMI clearing watchdog (depends on TCO-version)(default=1) (int)
+    type: integer
+    minimum: 0
+    maximum: 1

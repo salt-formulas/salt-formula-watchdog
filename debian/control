@@ -1,0 +1,15 @@
+Source: salt-formula-watchdog
+Maintainer: Petr Ruzicka <pruzicka@mirantis.com>
+Section: admin
+Priority: optional
+Build-Depends: debhelper (>= 9), salt-master, python, python-yaml
+Standards-Version: 3.9.6
+Homepage: https://github.com/salt-formulas
+Vcs-Browser: https://github.com/salt-formulas/salt-formula-watchdog
+Vcs-Git: https://github.com/salt-formulas/salt-formula-watchdog.git
+
+Package: salt-formula-watchdog
+Architecture: all
+Depends: ${misc:Depends}
+Description: watchdog salt formula
+ Install and configure watchdog.
