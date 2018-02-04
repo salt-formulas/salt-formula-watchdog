@@ -9,7 +9,7 @@ watchdog_packages:
   file.replace:
     - name: /etc/default/watchdog
     - pattern: ^watchdog_module=.*
-    - repl: watchdog_module="{{ server.module | default('softdog') }}"
+    - repl: watchdog_module="{{ server.module }}"
     - require:
       - pkg: watchdog_packages
     - require_in: watchdog_service
@@ -17,7 +17,7 @@ watchdog_packages:
 {%- if server.kernel.parameter is defined %}
 /etc/modprobe.d/kernel_module.conf:
   file.managed:
-    - name: /etc/modprobe.d/{{ server.module | default('softdog') }}.conf
+    - name: /etc/modprobe.d/{{ server.module }}.conf
     - template: jinja
     - source: salt://watchdog/files/kernel_module.conf
     - makedirs: True

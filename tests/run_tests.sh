@@ -2,7 +2,8 @@
 
 ###
 # Script requirments:
-apt-get install -y python-yaml virtualenv git
+#apt-get install -y python-yaml virtualenv git
+which virtualenv &> /dev/null || apt-get install -y virtualenv
 
 set -e
 [ -n "$DEBUG" ] && set -x
