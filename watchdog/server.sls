@@ -5,7 +5,6 @@ watchdog_packages:
   pkg.installed:
     - name: watchdog
 
-{%- if server.module is defined %}
 /etc/default/watchdog:
   file.replace:
     - name: /etc/default/watchdog
@@ -15,7 +14,7 @@ watchdog_packages:
       - pkg: watchdog_packages
     - require_in: watchdog_service
 
-{%- if server.kernel.parameter %}
+{%- if server.kernel.parameter is defined %}
 /etc/modprobe.d/kernel_module.conf:
   file.managed:
     - name: /etc/modprobe.d/{{ server.module }}.conf
@@ -25,7 +24,6 @@ watchdog_packages:
     - require:
       - pkg: watchdog_packages
     - require_in: watchdog_service
-{%- endif %}
 {%- endif %}
 
 /etc/watchdog.conf:

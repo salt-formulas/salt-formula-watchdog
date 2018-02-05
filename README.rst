@@ -15,9 +15,17 @@ Single watchdog service
 
     watchdog:
       server:
+        admin: root
         enabled: true
+        interval: 1
+        log_dir: /var/log/watchdog
+        realtime: yes
         timeout: 60
-        # Salt Stack will automatically detect the necessary kernel module which needs to be loaded (ex. hpwdt). You may specify the kernel parameters if needed:
+        device: /dev/watchdog
+
+        # Salt Stack will automatically detect the necessary kernel module which needs to be loaded (ex. hpwdt, iTCO_wdt).
+        # If the hardware model is not predefined in map.jinja the default watchdog driver is used: softdog
+        # You may specify the kernel parameters if needed:
         kernel:
           parameter:
             soft_panic: 1

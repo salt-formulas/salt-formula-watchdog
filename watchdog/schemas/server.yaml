@@ -11,15 +11,20 @@ required:
   - enabled
 
 properties:
+  admin:
+    description: |
+      Email address to send admin mail to
+    type: string
+    example: root
   enabled:
     description: |
       Enables Watchdog daemon service
     type: boolean
-  timeout:
+  interval:
     description: |
-      Seting "watchdog-timer" config parameter placed in /etc/watchdog.conf
+      Set the interval between two writes to the watchdog device
     type: integer
-    minimum: 0
+    minimum: 1
   kernel:
     description: |
       Parameters for the kernel module which are used for loading the kernel module
@@ -32,6 +37,26 @@ properties:
         type: string
         items:
           $ref: "#/definitions/allow_kdump"
+  log_dir:
+    description: |
+      Set the log directory to capture the standard output and standard error from repair-binary and test-binary execution
+    type: string
+    example: /var/log/watchdog
+  realtime:
+    description: |
+      If set to yes watchdog will lock itself into memory so it is never swapped out
+    type: string
+    example: yes
+  timeout:
+    description: |
+      Seting "watchdog-timer" config parameter placed in /etc/watchdog.conf
+    type: integer
+    minimum: 0
+  device:
+    description: |
+      Set the watchdog device name
+    type: string
+    example: /dev/watchdog
 
 definitions:
   # hpwdt
