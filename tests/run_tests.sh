@@ -46,10 +46,10 @@ setup_virtualenv() {
     dependency_check virtualenv
     virtualenv $VENV_DIR
     source ${VENV_DIR}/bin/activate
-    pip install salt${PIP_SALT_VERSION}
-    pip install jsonschema
+    python $(which pip) install salt${PIP_SALT_VERSION}
+    python $(which pip) install jsonschema
     if [[ -f ${CURDIR}/pip_requirements.txt ]]; then
-       pip install -r ${CURDIR}/pip_requirements.txt
+       python $(which pip) install -r ${CURDIR}/pip_requirements.txt
     fi
 }
 
@@ -167,7 +167,7 @@ prepare() {
 lint_releasenotes() {
     [[ ! -f "${VENV_DIR}/bin/activate" ]] && setup_virtualenv
     source ${VENV_DIR}/bin/activate
-    pip install reno
+    python $(which pip) install reno
     reno lint ${CURDIR}/../
 }
 
