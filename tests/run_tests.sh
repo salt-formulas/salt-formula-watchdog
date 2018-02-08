@@ -46,10 +46,10 @@ setup_virtualenv() {
     dependency_check virtualenv
     virtualenv $VENV_DIR
     source ${VENV_DIR}/bin/activate
-    python $(which pip) install salt${PIP_SALT_VERSION}
-    python $(which pip) install jsonschema
+    python -m pip install salt${PIP_SALT_VERSION}
+    python -m pip install jsonschema
     if [[ -f ${CURDIR}/pip_requirements.txt ]]; then
-       python $(which pip) install -r ${CURDIR}/pip_requirements.txt
+       python -m pip install -r ${CURDIR}/pip_requirements.txt
     fi
 }
 
@@ -167,7 +167,7 @@ prepare() {
 lint_releasenotes() {
     [[ ! -f "${VENV_DIR}/bin/activate" ]] && setup_virtualenv
     source ${VENV_DIR}/bin/activate
-    python $(which pip) install reno
+    python -m pip install reno
     reno lint ${CURDIR}/../
 }
 
@@ -209,7 +209,7 @@ run_model_validate(){
       fetch_dependency "salt:https://github.com/salt-formulas/salt-formula-salt"
       link_modules
       # Rendered Example:
-      # salt-call --local -c /test1/maas/tests/build/salt --id=maas_cluster modelschema.model_validate maas cluster
+      # python $(which salt-call) --local -c /test1/maas/tests/build/salt --id=maas_cluster modelschema.model_validate maas cluster
       for role in ${SCHEMARDIR}/*.yaml; do
           state_name=$(basename "${role%*.yaml}")
           minion_id="${state_name}"

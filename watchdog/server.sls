@@ -14,7 +14,7 @@ watchdog_packages:
       - pkg: watchdog_packages
     - require_in: watchdog_service
 
-{%- if server.kernel.parameter is defined %}
+{%- if server.kernel.parameter is defined and server.kernel.parameter %}
 /etc/modprobe.d/kernel_module.conf:
   file.managed:
     - name: /etc/modprobe.d/{{ server.module }}.conf
