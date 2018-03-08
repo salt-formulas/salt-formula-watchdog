@@ -5,6 +5,27 @@ watchdog_packages:
   pkg.installed:
     - name: watchdog
 
+#Fix bug https://bugs.launchpad.net/ubuntu/+source/watchdog/+bug/1448924 in Ubuntu Xenial (workaround)
+{% if grains['oscodename'] == 'xenial' %}
+/lib/systemd/system/watchdog.service:
+  file.copy:
+    - name: /etc/systemd/system/watchdog.service
+    - source: /lib/systemd/system/watchdog.service
+    - require:
+      - pkg: watchdog_packages
+    - require_in: /etc/systemd/system/watchdog.service
+
+/etc/systemd/system/watchdog.service:
+  file.line:
+    - name: /etc/systemd/system/watchdog.service
+    - mode: ensure
+    - after: \[Install\]
+    - content: WantedBy=default.target
+    - require:
+      - file: /lib/systemd/system/watchdog.service
+    - require_in: watchdog_service
+{% endif %}
+
 /etc/default/watchdog:
   file.replace:
     - name: /etc/default/watchdog

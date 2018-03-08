@@ -69,3 +69,11 @@ Any questions or feedback is always welcome so feel free to join our IRC
 channel:
 
     #salt-formulas @ irc.freenode.net
+
+
+To-Do
+================
+
+Remove the part in `server.sls` about the Ubuntu Xenial bug once it's fixed in upstream:
+
+https://bugs.launchpad.net/ubuntu/+source/watchdog/+bug/1448924
