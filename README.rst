@@ -3,8 +3,19 @@
 Watchdog Formula
 ==================================
 
-Install and configure watchdog daemon
+The Linux kernel can reset the system if serious problems are detected. This can
+be implemented via special watchdog hardware, or via a slightly less reliable
+software-only watchdog inside the kernel. Either way, there needs to be a daemon
+that tells the kernel the system is working fine. If the daemon stops doing that,
+the system is reset.
 
+watchdog is such a daemon. It opens `/dev/watchdog`, and keeps writing to it
+often enough to keep the kernel from resetting, at least once per minute. Each
+write delays the reboot time another minute. After a minute of inactivity the
+watchdog hardware will cause the reset. In the case of the software watchdog the
+ability to reboot will depend on the state of the machines and interrupts.
+
+This formula installs and configure watchdog daemon...
 
 Sample Pillars
 ==============
@@ -74,6 +85,5 @@ channel:
 To-Do
 ================
 
-Remove the part in `server.sls` about the Ubuntu Xenial bug once it's fixed in upstream:
-
+Remove the part in `watchdog/server.sls` about the Ubuntu Xenial bug once it's fixed in upstream:
 https://bugs.launchpad.net/ubuntu/+source/watchdog/+bug/1448924
