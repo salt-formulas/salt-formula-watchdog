@@ -1,0 +1,11 @@
+{%- from "watchdog/map.jinja" import server with context -%}
+run_watchdog=1
+# Start wd_keepalive after stopping watchdog? 0 or 1
+run_wd_keepalive={{ server.run_wd_keepalive|default(1) }}
+# Load module before starting watchdog
+watchdog_module={{ server.module }}
+# Specify additional watchdog options here (see manpage).
+
+{#-
+vim: syntax=jinja
+-#}

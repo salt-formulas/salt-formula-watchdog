@@ -29,7 +29,7 @@ provisioner:
 platforms:
   - name: <%=ENV['PLATFORM'] || 'ubuntu-xenial'%>
     driver_config:
-      image: <%=ENV['PLATFORM'] || 'trevorj/salty-whales:xenial'%>
+      image: <%=ENV['PLATFORM'] || 'epcim/salt-formulas:saltstack-ubuntu-xenial-salt-2016.3'%>
       platform: ubuntu
 
 verifier:
@@ -38,7 +38,7 @@ verifier:
 
 
 suites:
-  - name: server_single
+  - name: server
     provisioner:
       pillars-from-files:
         watchdog.sls: tests/pillar/server.sls

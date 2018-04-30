@@ -15,7 +15,7 @@ write delays the reboot time another minute. After a minute of inactivity the
 watchdog hardware will cause the reset. In the case of the software watchdog the
 ability to reboot will depend on the state of the machines and interrupts.
 
-This formula installs and configure watchdog daemon...
+This formula installs and configure watchdog daemon
 
 Sample Pillars
 ==============
@@ -34,20 +34,53 @@ Single watchdog service
         timeout: 60
         device: /dev/watchdog
 
-        # Salt Stack will automatically detect the necessary kernel module which needs to be loaded (ex. hpwdt, iTCO_wdt).
-        # If the hardware model is not predefined in map.jinja the default watchdog driver is used: softdog
-        # You may specify the kernel parameters if needed:
+
+Sample Pillars with kernel module
+=================================
+
+Salt Stack will automatically detect the necessary kernel module which needs to be loaded (ex. hpwdt, iTCO_wdt).
+If the hardware model is not predefined in map.jinja the default watchdog driver is used: softdog
+You may specify the kernel parameters if needed:
+
+.. code-block:: yaml
+
+    watchdog:
+      server:
+        admin: root
+        enabled: true
+        interval: 1
+        log_dir: /var/log/watchdog
+        realtime: yes
+        timeout: 60
+        device: /dev/watchdog
+        module: softdog
+   ......
+   ......
+    linux:
+      system:
         kernel:
-          parameter:
-            soft_panic: 1
-            parameter: value
-            parameter_only_without_value: none
+          module:
+            softdog:
+              option:
+                soft_panic: 1
+
+INFO: extra formula [salt-formula-linux](https://github.com/salt-formulas/salt-formula-linux) required.
+
+In that case, apply command should also care about linux state. For example:
+
+
+.. code-block:: bash
+
+  salt "kvm0*" -l debug state.apply watchdog.server,linux.system.kernel -l debug
 
 
 More Information
 ================
 
 https://github.com/torvalds/linux/blob/master/Documentation/watchdog/watchdog-api.txt
+Those formula also support json-schema definition with all options.
+Please refer to "watchdog/schemas/\*.yaml" for more information.
+
 
 
 Documentation and Bugs

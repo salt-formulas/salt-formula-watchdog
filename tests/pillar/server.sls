@@ -1,8 +1,10 @@
 watchdog:
   server:
     enabled: true
-    timeout: 60
-    # These parametrs should create file in /etc/modprobe.d/kernel_module.conf with content "option module soft_panic=1 parameter=second value_only"
-    kernel:
-      parameter:
-        nowayout: 0
+    timeout: 360
+    ping:
+      1: 127.0.0.1
+      2: 0.0.0.0
+    ping_nic:
+      1: lo
+    max_load_1: 100

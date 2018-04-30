@@ -11,32 +11,24 @@ required:
   - enabled
 
 properties:
+  enabled:
+    description: |
+      Enables Watchdog daemon service
+    type: boolean
   admin:
     description: |
       Email address to send admin mail to
     type: string
     example: root
-  enabled:
-    description: |
-      Enables Watchdog daemon service
-    type: boolean
   interval:
     description: |
       Set the interval between two writes to the watchdog device
     type: integer
     minimum: 1
-  kernel:
+  module:
     description: |
-      Parameters for the kernel module which are used for loading the kernel module
+      Explicit name of required kernel module. By default "softdog" will be used.
     type: string
-    type: object
-    parameters:
-      parameter:
-        description: |
-          Name of the watchdog kernel module
-        type: string
-        items:
-          $ref: "#/definitions/allow_kdump"
   log_dir:
     description: |
       Set the log directory to capture the standard output and standard error from repair-binary and test-binary execution
@@ -57,58 +49,45 @@ properties:
       Set the watchdog device name
     type: string
     example: /dev/watchdog
-
-definitions:
-  # hpwdt
-  allow_kdump:
+  run_wd_keepalive:
     description: |
-      Start a kernel dump after NMI occurs (int)
-    type: integer
-    minimum: 0
-
-  # iTCO_wdt
-  heartbeat:
+      Start wd_keepalive after stopping watchdog?Option required for correct daemon stop.
+    type: boolean
+  watchdog-timeout:
     description: |
-      Watchdog timeout in seconds. 5..76 (TCO v1) or 3..614 (TCO v2), default=30) (int)
+     Set the watchdog device timeout during startup.  If not set, the
+     default is driver-dependent.
     type: integer
-    minimum: 3
-    maximum: 614
-
-  # iTCO_wdt, hpwdt, softdog
-  nowayout:
+  max_load_1:
     description: |
-      Watchdog cannot be stopped once started (default=0) (bool)
-    type: integer
-    minimum: 0
-    maximum: 1
-
-  # hpwdt, softdog
-  soft_margin:
+     Set the maximal allowed load average for a 1 minute  span.  Once
+     this  load  average  is  reached the system is rebooted. Default
+     value is 0. That means the load average check  is  disabled.  Be
+     careful  not to this parameter too low. To set a value less then
+     the predefined minimal value of  2,  you  have  to  use  the  -f
+     commandline option.
+    type: number
+  max_load_5:
     description: |
-      Watchdog soft_margin in seconds. (0 < soft_margin < 65536, default=60) (uint)
-    type: integer
-    minimum: 0
-
-  # softdog
-  soft_noboot:
+      Set  the  maximal allowed load average for a 5 minute span. Once
+      this load average is reached the  system  is  rebooted.  Default
+      value  is  3/4*max-load-1.  Be careful not to this parameter too
+      low. To set a value less then the predefined minimal value of 2,
+      you have to use the -f commandline option.
+    type: number
+  max_load_15:
     description: |
-      Softdog action, set to 1 to ignore reboots, 0 to reboot (default=0) (int)
-    type: integer
-    minimum: 0
-    maximum: 1
-
-  # softdog
-  soft_panic:
+      Set  the maximal allowed load average for a 15 minute span. Once
+      this load average is reached the  system  is  rebooted.  Default
+      value  is  1/2*max-load-1.  Be careful not to this parameter too
+      low. To set a value less then the predefined minimal value of 2,
+      you have to use the -f commandline option.
+    type: number
+  ping:
     description: |
-      Softdog action, set to 1 to panic, 0 to reboot (default=0) (int)
-    type: integer
-    minimum: 0
-    maximum: 1
-
-  # iTCO_wdt
-  turn_SMI_watchdog_clear_off:
+      List of IP address for ping mode.
+    type: object
+  ping_nic:
     description: |
-      Turn off SMI clearing watchdog (depends on TCO-version)(default=1) (int)
-    type: integer
-    minimum: 0
-    maximum: 1
+      Set  interface  name  for network mode.
+    type: object
