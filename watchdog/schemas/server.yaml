@@ -29,16 +29,41 @@ properties:
     description: |
       Explicit name of required kernel module. By default "softdog" will be used.
     type: string
+  logtick:
+    description: |
+        Option allows you to reduce the volume of periodic messages in syslog
+        by only reporting 1 out of N times, though the default is to report all.
+    type: integer
+    example: 1
+  log_verbose:
+    description: |
+        Possible options: yes/no. "Yes" sends all debug info to the syslog
+        and should be used for unusual cases only. It will generate a lot of
+        syslog traffic and it will be harder to find the real problem
+    type: string
+    example: no
+    enum: [yes, no]
   log_dir:
     description: |
-      Set the log directory to capture the standard output and standard error from repair-binary and test-binary execution
+      Set the log directory to capture the standard output and standard error
+      from repair-binary and test-binary execution
     type: string
     example: /var/log/watchdog
+  pidfile:
+    description: |
+      The watchdog daemon can be configured to check for the running of other
+      daemons by means of these PID files. When this test is enabled,
+      the watchdog tries to open the PID file and read the numeric value of
+      the PID from it, then it uses the kill() function to attempt to send
+      the null (zero) signal to this process to check it is running
+    type: string
+    example: /var/run/rsyslogd.pid
   realtime:
     description: |
       If set to yes watchdog will lock itself into memory so it is never swapped out
     type: string
     example: yes
+    enum: [yes, no]
   timeout:
     description: |
       Seting "watchdog-timer" config parameter placed in /etc/watchdog.conf
